@@ -8,7 +8,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <div class="calculator">
+        <div class="calculator__screen">
+            <span id="num1">0</span>
+            <span id="op"></span>
+            <span id="num2"></span>
+            <div id="result"></div>
+        </div>
+        <div class="calculator__controls">
+            <button class="calculator__clear">Clear</button>
+        </div>
+        <div class="calculator__operands">
+            <div class="calculator__nums">
+                <button class="calculator__num">7</button>
+                <button class="calculator__num">8</button>
+                <button class="calculator__num">9</button>
+                <button class="calculator__num">4</button>
+                <button class="calculator__num">5</button>
+                <button class="calculator__num">6</button>
+                <button class="calculator__num">1</button>
+                <button class="calculator__num">2</button>
+                <button class="calculator__num">3</button>
+                <button class="calculator__dot">.</button>
+                <button class="calculator__num">0</button>
+                <button class="calculator__equals">=</button>
+            </div>
+            <div class="calculator__operators">
+                <button class="calculator__operator" id="calculator__add">+</button>
+                <button class="calculator__operator" id="calculator__subtract">-</button>
+                <button class="calculator__operator" id="calculator__multiply">x</button>
+                <button class="calculator__operator" id="calculator__divide">/</button>
+            </div>
+        </div>
+    </div>
     
     <script src="app.js"></script>
 </body>
