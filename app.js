@@ -2,6 +2,7 @@
 const nums = document.querySelectorAll('.calculator__num'),
       screen = document.querySelector('.calculator__screen'),
       clear = document.querySelector('.calculator__clear'),
+      deleteBtn = document.querySelector('.calculator__delete'),
       addBtn = document.querySelector('#calculator__add'),
       subtractBtn = document.querySelector('#calculator__subtract'),
       multiplyBtn = document.querySelector('#calculator__multiply'),
@@ -67,10 +68,19 @@ clear.addEventListener('click', (e) => {
     num2.innerHTML = '';
     op.innerHTML = '';
     result.innerHTML = '';
-})
+});
+deleteBtn.addEventListener('click', (e) => {
+    if (num2.innerHTML) {
+        num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
+    }  else if (op.innerHTML) {
+        op.innerHTML = '';
+    } else {
+        num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
+    }
+});
 equalsBtn.addEventListener('click', () => {
     count();
-})
+});
 
 addBtn.addEventListener('click', (e) => {
     addNewValue();
