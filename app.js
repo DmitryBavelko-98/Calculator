@@ -37,6 +37,9 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b === 0) {
+        return 'No division by zero';
+    }
     if (Number.isInteger(a / b)) {
         return a / b;
     }
@@ -60,7 +63,7 @@ function inputValue(e) {
 function count () {
     result.innerHTML = operate(operator, storage, value);
 }
-function addNewValue() {
+function addResult() {
     if (op.innerHTML !== '') {
         count();
         num1.innerHTML = result.innerHTML;
@@ -105,7 +108,7 @@ dot.addEventListener('click', () => {
 
 addBtn.addEventListener('click', (e) => {
     if (num1.innerHTML) {
-        addNewValue();
+        addResult();
         op.innerHTML = e.target.innerHTML;
         operator = add;
         storage = +num1.innerHTML;
@@ -114,7 +117,7 @@ addBtn.addEventListener('click', (e) => {
 
 subtractBtn.addEventListener('click', (e) => {
     if (num1.innerHTML) {
-        addNewValue();
+        addResult();
         op.innerHTML = e.target.innerHTML;
         operator = subtract;
         storage = +num1.innerHTML;
@@ -122,7 +125,7 @@ subtractBtn.addEventListener('click', (e) => {
 })
 multiplyBtn.addEventListener('click', (e) => {
     if (num1.innerHTML) {
-        addNewValue();
+        addResult();
         op.innerHTML = e.target.innerHTML;
         operator = multiply;
         storage = +num1.innerHTML;
@@ -130,7 +133,7 @@ multiplyBtn.addEventListener('click', (e) => {
 })
 divideBtn.addEventListener('click', (e) => {
     if (num1.innerHTML) {
-        addNewValue();
+        addResult();
         op.innerHTML = e.target.innerHTML;
         operator = divide;
         storage = +num1.innerHTML;
