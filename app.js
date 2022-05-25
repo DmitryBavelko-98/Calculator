@@ -8,6 +8,7 @@ const nums = document.querySelectorAll('.calculator__num'),
       multiplyBtn = document.querySelector('#calculator__multiply'),
       divideBtn = document.querySelector('#calculator__divide'),
       equalsBtn = document.querySelector('.calculator__equals'),
+      dot = document.querySelector('.calculator__dot'),
       operators = '+ - x /',
       num1 = document.querySelector('#num1'),
       num2 = document.querySelector('#num2'),
@@ -79,7 +80,16 @@ deleteBtn.addEventListener('click', (e) => {
     }
 });
 equalsBtn.addEventListener('click', () => {
-    count();
+    if ((num1.innerHTML && op.innerHTML === '') || (num1.innerHTML && num2.innerHTML && op.innerHTML)) {
+        count();
+    } 
+});
+dot.addEventListener('click', () => {
+    if (op.innerHTML === '') {
+        if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
+    } else {
+        if (!num2.innerHTML.includes('.')) num2.innerHTML += '.';
+    }
 });
 
 addBtn.addEventListener('click', (e) => {
