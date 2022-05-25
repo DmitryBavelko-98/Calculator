@@ -61,7 +61,9 @@ function inputValue(e) {
     }
 }
 function count () {
-    result.innerHTML = operate(operator, storage, value);
+    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
+        result.innerHTML = operate(operator, storage, value);
+    } 
 }
 function addResult() {
     if (op.innerHTML !== '') {
@@ -91,6 +93,12 @@ function setOperator(e, operation) {
     }
 }
 
+function setKeyOperator (sign, operation) {
+    op.innerHTML = sign;
+    operator = operation;
+    storage = +num1.innerHTML;
+}
+
 function inputDot() {
     if (op.innerHTML === '') {
         if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
@@ -99,41 +107,69 @@ function inputDot() {
     }
 }
 
-nums.forEach(num => {
-    num.addEventListener('click', (e) => inputValue(e));
-}); 
-
-clear.addEventListener('click', (e) => {
+function clearScreen() {
     storage = 0;
     value = 0;
     num1.innerHTML = '0';
     num2.innerHTML = '';
     op.innerHTML = '';
     result.innerHTML = '';
+}
+
+
+function inputKeyValue(e) {
+    const code = e.code.split('').slice(-1).join('');
+    if (code >= 0 && code <= 9) {
+        if (op.innerHTML != '') {
+            num2.innerHTML += code;
+            value = +num2.innerHTML;
+        }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
+            num1.innerHTML = code;
+        } else {
+            num1.innerHTML += code;
+        }
+    }  
+
+    switch (e.code) {
+        case 'NumpadAdd': setKeyOperator('+', add);
+        break;
+        case 'NumpadSubtract': setKeyOperator('-', subtract);
+        break;
+        case 'NumpadMultiply': setKeyOperator('x', multiply);
+        break;
+        case 'NumpadDivide': setKeyOperator('/', divide);
+        break;
+        case 'Period': inputDot();
+        break;
+        case 'Equal': count();
+        break;
+        case 'Escape': clearScreen();
+        break;
+        case 'Backspace': deleteChar();
+        break;
+    }
+}
+
+document.addEventListener('keydown', (e) => inputKeyValue(e));
+
+nums.forEach(num => {
+    num.addEventListener('click', (e) => inputValue(e));
+}); 
+
+clear.addEventListener('click', (e) => {
+    clearScreen();
 });
-deleteBtn.addEventListener('click', (e) => {
-    deleteChar(e);
-});
+deleteBtn.addEventListener('click', () => deleteChar());
 equalsBtn.addEventListener('click', () => {
     if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
         count();
     } 
 });
-dot.addEventListener('click', () => {
-    inputDot();
-});
+dot.addEventListener('click', () => inputDot());
 
-addBtn.addEventListener('click', (e) => {
-    setOperator(e, add);
-});
-subtractBtn.addEventListener('click', (e) => {
-    setOperator(e, subtract);
-})
-multiplyBtn.addEventListener('click', (e) => {
-    setOperator(e, multiply);
-})
-divideBtn.addEventListener('click', (e) => {
-    setOperator(e, divide);
-});
+addBtn.addEventListener('click', (e) => setOperator(e, add));
+subtractBtn.addEventListener('click', (e) => setOperator(e, subtract));
+multiplyBtn.addEventListener('click', (e) => setOperator(e, multiply));
+divideBtn.addEventListener('click', (e) => setOperator(e, divide));
 
 
