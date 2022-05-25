@@ -27,11 +27,11 @@ function subtract(a, b) {
 }
 
 function multiply(a, b) {
-    return a * b;
+    return (a * b).toFixed(1);
 }
 
 function divide(a, b) {
-    return a / b;
+    return (a / b).toFixed(1);
 }
 
 function operate(operator, a, b) {
@@ -83,28 +83,37 @@ equalsBtn.addEventListener('click', () => {
 });
 
 addBtn.addEventListener('click', (e) => {
-    addNewValue();
-    op.innerHTML = e.target.innerHTML;
-    operator = add;
-    storage = +num1.innerHTML;
+    if (num1.innerHTML) {
+        addNewValue();
+        op.innerHTML = e.target.innerHTML;
+        operator = add;
+        storage = +num1.innerHTML;
+    }
 });
 
 subtractBtn.addEventListener('click', (e) => {
-    addNewValue();
-    op.innerHTML = e.target.innerHTML;
-    operator = subtract;
-    storage = +num1.innerHTML;
+    if (num1.innerHTML) {
+        addNewValue();
+        op.innerHTML = e.target.innerHTML;
+        operator = subtract;
+        storage = +num1.innerHTML;
+    }
 })
 multiplyBtn.addEventListener('click', (e) => {
-    addNewValue();
-    op.innerHTML = e.target.innerHTML;
-    operator = multiply;
-    storage = +num1.innerHTML;
+    if (num1.innerHTML) {
+        addNewValue();
+        op.innerHTML = e.target.innerHTML;
+        operator = multiply;
+        storage = +num1.innerHTML;
+    }
 })
 divideBtn.addEventListener('click', (e) => {
-    addNewValue();
-    op.innerHTML = e.target.innerHTML;
-    operator = divide;
-    storage = +num1.innerHTML;
-})
+    if (num1.innerHTML) {
+        addNewValue();
+        op.innerHTML = e.target.innerHTML;
+        operator = divide;
+        storage = +num1.innerHTML;
+    }
+});
+
 
