@@ -19,6 +19,8 @@ let value = 0;
 let storage = 0;
 let operator;
 
+num1.innerHTML = '0';
+
 function add(a, b) {
     return a + b;
 }
@@ -28,11 +30,17 @@ function subtract(a, b) {
 }
 
 function multiply(a, b) {
-    return (a * b).toFixed(1);
+    if (Number.isInteger(a * b)) {
+        return a * b;
+    }
+    return (a * b).toFixed(3);
 }
 
 function divide(a, b) {
-    return (a / b).toFixed(1);
+    if (Number.isInteger(a / b)) {
+        return a / b;
+    }
+    return (a / b).toFixed(3);
 }
 
 function operate(operator, a, b) {
@@ -43,7 +51,7 @@ function inputValue(e) {
     if (op.innerHTML != '') {
         num2.innerHTML += e.target.innerHTML;
         value = +num2.innerHTML;
-    }  else if (num1.innerHTML == 0) {
+    }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
         num1.innerHTML = e.target.innerHTML;
     } else {
         num1.innerHTML += e.target.innerHTML;
@@ -65,7 +73,9 @@ nums.forEach(num => {
 }); 
 
 clear.addEventListener('click', (e) => {
-    num1.innerHTML = '';
+    storage = 0;
+    value = 0;
+    num1.innerHTML = '0';
     num2.innerHTML = '';
     op.innerHTML = '';
     result.innerHTML = '';
@@ -77,10 +87,11 @@ deleteBtn.addEventListener('click', (e) => {
         op.innerHTML = '';
     } else {
         num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
+        if (!num1.innerHTML) num1.innerHTML = '0';
     }
 });
 equalsBtn.addEventListener('click', () => {
-    if ((num1.innerHTML && op.innerHTML === '') || (num1.innerHTML && num2.innerHTML && op.innerHTML)) {
+    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
         count();
     } 
 });
