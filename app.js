@@ -71,6 +71,34 @@ function addResult() {
     }
 }
 
+function deleteChar () {
+    if (num2.innerHTML) {
+        num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
+    }  else if (op.innerHTML) {
+        op.innerHTML = '';
+    } else {
+        num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
+        if (!num1.innerHTML) num1.innerHTML = '0';
+    }
+}
+
+function setOperator(e, operation) {
+    if (num1.innerHTML) {
+        addResult();
+        op.innerHTML = e.target.innerHTML;
+        operator = operation;
+        storage = +num1.innerHTML;
+    }
+}
+
+function inputDot() {
+    if (op.innerHTML === '') {
+        if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
+    } else {
+        if (!num2.innerHTML.includes('.')) num2.innerHTML += '.';
+    }
+}
+
 nums.forEach(num => {
     num.addEventListener('click', (e) => inputValue(e));
 }); 
@@ -84,14 +112,7 @@ clear.addEventListener('click', (e) => {
     result.innerHTML = '';
 });
 deleteBtn.addEventListener('click', (e) => {
-    if (num2.innerHTML) {
-        num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
-    }  else if (op.innerHTML) {
-        op.innerHTML = '';
-    } else {
-        num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
-        if (!num1.innerHTML) num1.innerHTML = '0';
-    }
+    deleteChar(e);
 });
 equalsBtn.addEventListener('click', () => {
     if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
@@ -99,45 +120,20 @@ equalsBtn.addEventListener('click', () => {
     } 
 });
 dot.addEventListener('click', () => {
-    if (op.innerHTML === '') {
-        if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
-    } else {
-        if (!num2.innerHTML.includes('.')) num2.innerHTML += '.';
-    }
+    inputDot();
 });
 
 addBtn.addEventListener('click', (e) => {
-    if (num1.innerHTML) {
-        addResult();
-        op.innerHTML = e.target.innerHTML;
-        operator = add;
-        storage = +num1.innerHTML;
-    }
+    setOperator(e, add);
 });
-
 subtractBtn.addEventListener('click', (e) => {
-    if (num1.innerHTML) {
-        addResult();
-        op.innerHTML = e.target.innerHTML;
-        operator = subtract;
-        storage = +num1.innerHTML;
-    }
+    setOperator(e, subtract);
 })
 multiplyBtn.addEventListener('click', (e) => {
-    if (num1.innerHTML) {
-        addResult();
-        op.innerHTML = e.target.innerHTML;
-        operator = multiply;
-        storage = +num1.innerHTML;
-    }
+    setOperator(e, multiply);
 })
 divideBtn.addEventListener('click', (e) => {
-    if (num1.innerHTML) {
-        addResult();
-        op.innerHTML = e.target.innerHTML;
-        operator = divide;
-        storage = +num1.innerHTML;
-    }
+    setOperator(e, divide);
 });
 
 
