@@ -9,7 +9,6 @@ const nums = document.querySelectorAll('.calculator__num'),
       divideBtn = document.querySelector('#calculator__divide'),
       equalsBtn = document.querySelector('.calculator__equals'),
       dot = document.querySelector('.calculator__dot'),
-      operators = '+ - x /',
       num1 = document.querySelector('#num1'),
       num2 = document.querySelector('#num2'),
       op = document.querySelector('#op'),
@@ -51,22 +50,24 @@ function operate(operator, a, b) {
 }
 
 function inputValue(e) {
-    if (op.innerHTML != '') {
-        num2.innerHTML += e.target.innerHTML;
-        value = +num2.innerHTML;
-    }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
-        num1.innerHTML = e.target.innerHTML;
-    } else {
-        num1.innerHTML += e.target.innerHTML;
+    if (num1.innerHTML.length < 6 && num2.innerHTML.length < 6) {
+        if (op.innerHTML != '') {
+            num2.innerHTML += e.target.innerHTML;
+            value = +num2.innerHTML;
+        }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
+            num1.innerHTML = e.target.innerHTML;
+        } else {
+            num1.innerHTML += e.target.innerHTML;
+        }
     }
 }
 function count () {
     if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
         result.innerHTML = operate(operator, storage, value);
-    } 
+    }
 }
 function addResult() {
-    if (op.innerHTML !== '') {
+    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
         count();
         num1.innerHTML = result.innerHTML;
         num2.innerHTML = '';
@@ -87,10 +88,10 @@ function deleteChar () {
 function setOperator(e, operation) {
     if (num1.innerHTML) {
         addResult();
-        op.innerHTML = e.target.innerHTML;
-        operator = operation;
-        storage = +num1.innerHTML;
     }
+    op.innerHTML = e.target.innerHTML;
+    operator = operation;
+    storage = +num1.innerHTML;
 }
 
 function setKeyOperator (sign, operation) {
@@ -103,7 +104,7 @@ function inputDot() {
     if (op.innerHTML === '') {
         if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
     } else {
-        if (!num2.innerHTML.includes('.')) num2.innerHTML += '.';
+        if (!num2.innerHTML.includes('.') && num2.innerHTML !== '') num2.innerHTML += '.';
     }
 }
 
@@ -151,22 +152,11 @@ function inputKeyValue(e) {
 }
 
 document.addEventListener('keydown', (e) => inputKeyValue(e));
-
-nums.forEach(num => {
-    num.addEventListener('click', (e) => inputValue(e));
-}); 
-
-clear.addEventListener('click', (e) => {
-    clearScreen();
-});
+nums.forEach(num => num.addEventListener('click', (e) => inputValue(e))); 
+clear.addEventListener('click', (e) => clearScreen());
 deleteBtn.addEventListener('click', () => deleteChar());
-equalsBtn.addEventListener('click', () => {
-    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
-        count();
-    } 
-});
+equalsBtn.addEventListener('click', () => count());
 dot.addEventListener('click', () => inputDot());
-
 addBtn.addEventListener('click', (e) => setOperator(e, add));
 subtractBtn.addEventListener('click', (e) => setOperator(e, subtract));
 multiplyBtn.addEventListener('click', (e) => setOperator(e, multiply));
