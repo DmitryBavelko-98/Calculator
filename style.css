@@ -33,6 +33,12 @@ body {
 
     font-size: 30px;
 }
+
+#result {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
 .calculator__screen span {
     color: #ccc;
     font-weight: 400;

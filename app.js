@@ -21,18 +21,24 @@ let operator;
 num1.innerHTML = '0';
 
 function add(a, b) {
-    return a + b;
+    if (Number.isInteger(a + b)) {
+        return a + b;
+    }
+    return (a + b).toFixed(1);
 }
 
 function subtract(a, b) {
-    return a - b;
+    if (Number.isInteger(a - b)) {
+        return a - b;
+    }
+    return (a - b).toFixed(1);
 }
 
 function multiply(a, b) {
     if (Number.isInteger(a * b)) {
         return a * b;
     }
-    return (a * b).toFixed(3);
+    return (a * b).toFixed(1);
 }
 
 function divide(a, b) {
@@ -42,7 +48,7 @@ function divide(a, b) {
     if (Number.isInteger(a / b)) {
         return a / b;
     }
-    return (a / b).toFixed(3);
+    return (a / b).toFixed(1);
 }
 
 function operate(operator, a, b) {
@@ -50,15 +56,15 @@ function operate(operator, a, b) {
 }
 
 function inputValue(e) {
-    if (num1.innerHTML.length < 6 && num2.innerHTML.length < 6) {
-        if (op.innerHTML != '') {
-            num2.innerHTML += e.target.innerHTML;
-            value = +num2.innerHTML;
-        }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
-            num1.innerHTML = e.target.innerHTML;
-        } else {
-            num1.innerHTML += e.target.innerHTML;
-        }
+    if (op.innerHTML != '' && num2.innerHTML.length <= 15) {
+        num2.innerHTML += e.target.innerHTML;
+        num2.innerHTML = num2.innerHTML.slice(0,13);
+        value = +num2.innerHTML;
+    }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
+        num1.innerHTML = e.target.innerHTML;
+    } else if (num1.innerHTML.length <= 15) {
+        num1.innerHTML += e.target.innerHTML;
+        num1.innerHTML = num1.innerHTML.slice(0,13);
     }
 }
 function count () {
@@ -103,9 +109,10 @@ function setKeyOperator (sign, operation) {
 function inputDot() {
     if (op.innerHTML === '') {
         if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
-    } else {
+    } 
+     else {
         if (!num2.innerHTML.includes('.') && num2.innerHTML !== '') num2.innerHTML += '.';
-    }
+    } 
 }
 
 function clearScreen() {
@@ -130,6 +137,9 @@ function inputKeyValue(e) {
             num1.innerHTML += code;
         }
     }  
+    num1.innerHTML = num1.innerHTML.slice(0,13);
+    num2.innerHTML = num2.innerHTML.slice(0,13);
+
 
     switch (e.code) {
         case 'NumpadAdd': setKeyOperator('+', add);
