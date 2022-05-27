@@ -24,21 +24,21 @@ function add(a, b) {
     if (Number.isInteger(a + b)) {
         return a + b;
     }
-    return (a + b).toFixed(1);
+    return (a + b).toFixed(2);
 }
 
 function subtract(a, b) {
     if (Number.isInteger(a - b)) {
         return a - b;
     }
-    return (a - b).toFixed(1);
+    return (a - b).toFixed(2);
 }
 
 function multiply(a, b) {
     if (Number.isInteger(a * b)) {
         return a * b;
     }
-    return (a * b).toFixed(1);
+    return (a * b).toFixed(2);
 }
 
 function divide(a, b) {
@@ -48,7 +48,7 @@ function divide(a, b) {
     if (Number.isInteger(a / b)) {
         return a / b;
     }
-    return (a / b).toFixed(1);
+    return (a / b).toFixed(2);
 }
 
 function operate(operator, a, b) {
@@ -70,6 +70,7 @@ function inputValue(e) {
 function count () {
     if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
         result.innerHTML = operate(operator, storage, value);
+        result.innerHTML = result.innerHTML.slice(0, 4).concat(result.innerHTML.slice(-4));
     }
 }
 function addResult() {
@@ -81,6 +82,7 @@ function addResult() {
 }
 
 function deleteChar () {
+    result.innerHTML = '';
     if (num2.innerHTML) {
         num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
     }  else if (op.innerHTML) {
