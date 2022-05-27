@@ -3,7 +3,7 @@
 * {
     box-sizing: border-box;
 }
-
+ 
 body {
     background: #777;
 }
@@ -22,7 +22,7 @@ body {
 .calculator__screen {
     position: relative;
     width: 100%;
-    height: 90px;
+    height: 130px;
 
     margin: 0 0 20px 0;
     text-align: right;
@@ -83,4 +83,18 @@ button:hover {
 .calculator__operator {
     width: 100%;
     display: block;
+}
+
+@media (max-width: 400px) {
+    .calculator {
+        max-width: 300px;
+    }
+    .calculator__screen {
+        height: 110px;
+    
+        font-size: 25px;
+    }
+    button {
+        font-size: 18px;
+    }
 }
