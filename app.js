@@ -26,21 +26,18 @@ function add(a, b) {
     }
     return (a + b).toFixed(2);
 }
-
 function subtract(a, b) {
     if (Number.isInteger(a - b)) {
         return a - b;
     }
     return (a - b).toFixed(2);
 }
-
 function multiply(a, b) {
     if (Number.isInteger(a * b)) {
         return a * b;
     }
     return (a * b).toFixed(2);
 }
-
 function divide(a, b) {
     if (b === 0) {
         return 'No division by zero';
@@ -51,97 +48,42 @@ function divide(a, b) {
     return (a / b).toFixed(2);
 }
 
+
 function operate(operator, a, b) {
     return operator(a, b);
 }
 
+
+function setMaxSize () {
+    num1.innerHTML = num1.innerHTML.slice(0,13);
+    num2.innerHTML = num2.innerHTML.slice(0,13);
+}
+
+
 function inputValue(e) {
     if (op.innerHTML != '' && num2.innerHTML.length <= 15) {
         num2.innerHTML += e.target.innerHTML;
-        num2.innerHTML = num2.innerHTML.slice(0,13);
         value = +num2.innerHTML;
-    }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
+    }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.startsWith('0')) {
         num1.innerHTML = e.target.innerHTML;
     } else if (num1.innerHTML.length <= 15) {
         num1.innerHTML += e.target.innerHTML;
-        num1.innerHTML = num1.innerHTML.slice(0,13);
     }
+    setMaxSize();
 }
-function count () {
-    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
-        result.innerHTML = operate(operator, storage, value);
-        result.innerHTML = result.innerHTML.slice(0, 4).concat(result.innerHTML.slice(-4));
-    }
-}
-function addResult() {
-    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
-        count();
-        num1.innerHTML = result.innerHTML;
-        num2.innerHTML = '';
-    }
-}
-
-function deleteChar () {
-    result.innerHTML = '';
-    if (num2.innerHTML) {
-        num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
-    }  else if (op.innerHTML) {
-        op.innerHTML = '';
-    } else {
-        num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
-        if (!num1.innerHTML) num1.innerHTML = '0';
-    }
-}
-
-function setOperator(e, operation) {
-    if (num1.innerHTML) {
-        addResult();
-    }
-    op.innerHTML = e.target.innerHTML;
-    operator = operation;
-    storage = +num1.innerHTML;
-}
-
-function setKeyOperator (sign, operation) {
-    op.innerHTML = sign;
-    operator = operation;
-    storage = +num1.innerHTML;
-}
-
-function inputDot() {
-    if (op.innerHTML === '') {
-        if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
-    } 
-     else {
-        if (!num2.innerHTML.includes('.') && num2.innerHTML !== '') num2.innerHTML += '.';
-    } 
-}
-
-function clearScreen() {
-    storage = 0;
-    value = 0;
-    num1.innerHTML = '0';
-    num2.innerHTML = '';
-    op.innerHTML = '';
-    result.innerHTML = '';
-}
-
-
 function inputKeyValue(e) {
     const code = e.code.split('').slice(-1).join('');
     if (code >= 0 && code <= 9) {
         if (op.innerHTML != '') {
             num2.innerHTML += code;
             value = +num2.innerHTML;
-        }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.includes('0')) {
+        }  else if (!num1.innerHTML.includes('.') && num1.innerHTML.startsWith('0')) {
             num1.innerHTML = code;
         } else {
             num1.innerHTML += code;
         }
     }  
-    num1.innerHTML = num1.innerHTML.slice(0,13);
-    num2.innerHTML = num2.innerHTML.slice(0,13);
-
+    setMaxSize();
 
     switch (e.code) {
         case 'NumpadAdd': setKeyOperator('+', add);
@@ -162,6 +104,69 @@ function inputKeyValue(e) {
         break;
     }
 }
+function inputDot() {
+    if (op.innerHTML === '') {
+        if (!num1.innerHTML.includes('.')) num1.innerHTML += '.';
+    } 
+     else {
+        if (!num2.innerHTML.includes('.') && num2.innerHTML !== '') num2.innerHTML += '.';
+    } 
+}
+
+
+function count () {
+    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
+        const operation = operate(operator, storage, value);
+        return (operation > 100000000) 
+            ? result.innerHTML =operation.toExponential(2) 
+            : result.innerHTML = operation;
+    }
+}
+function addResult() {
+    if ((num1.innerHTML && num2.innerHTML && op.innerHTML)) {
+        count();
+        num1.innerHTML = result.innerHTML;
+        num2.innerHTML = '';
+    }
+}
+
+
+function setOperator(e, operation) {
+    if (num1.innerHTML) {
+        addResult();
+    }
+    op.innerHTML = e.target.innerHTML;
+    operator = operation;
+    storage = +num1.innerHTML;
+}
+function setKeyOperator (sign, operation) {
+    op.innerHTML = sign;
+    operator = operation;
+    storage = +num1.innerHTML;
+}
+
+
+function deleteChar () {
+    result.innerHTML = '';
+    if (num2.innerHTML) {
+        num2.innerHTML = num2.innerHTML.split('').slice(0, -1).join('');
+    }  else if (op.innerHTML) {
+        op.innerHTML = '';
+    } else {
+        num1.innerHTML = num1.innerHTML.split('').slice(0, -1).join('');
+        if (!num1.innerHTML) num1.innerHTML = '0';
+    }
+}
+
+function clearScreen() {
+    storage = 0;
+    value = 0;
+    num1.innerHTML = '0';
+    num2.innerHTML = '';
+    op.innerHTML = '';
+    result.innerHTML = '';
+}
+
 
 document.addEventListener('keydown', (e) => inputKeyValue(e));
 nums.forEach(num => num.addEventListener('click', (e) => inputValue(e))); 
